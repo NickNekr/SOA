@@ -1,0 +1,65 @@
+@startuml
+entity "User" as User {
+    + ID: int
+    --
+    Name: string
+    Email: string
+    Password: string
+    Registration Date: datetime
+}
+
+entity "Task" as Task {
+    + ID: int
+    --
+    Title: string
+    Text: string
+    Creation Date: datetime
+    Author (foreign key to User)
+}
+
+entity "Stats Table" as StatsTable {
+    + ID: int
+    --
+    Date: datetime
+    Views Count: int
+    Likes Count: int
+    Task (foreign key to Task)
+}
+
+entity "Comment" as Comment {
+    + ID: int
+    --
+    Text: string
+    Creation Date: datetime
+    Task (foreign key to Task)
+    Author (foreign key to User)
+    Parent Comment (foreign key to Comment)
+}
+
+entity "Like" as Like {
+    + ID: int
+    --
+    Date: datetime
+    User (foreign key to User)
+    Task (foreign key to Task)
+
+}
+
+entity "View" as View {
+    + ID: int
+    --
+    Date: datetime
+    User (foreign key to User)
+    Task (foreign key to Task)
+}
+
+Comment --|{ Like
+User --|{ Like
+Task --|{ Like
+User --|{ View
+Task --|{ View
+User --|{ Task
+Task --|{ StatsTable
+Task --|{ Comment
+Comment --|{ Comment
+@enduml

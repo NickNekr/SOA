@@ -1,0 +1,38 @@
+@startuml
+actor Пользователь as User
+queue "Kafka MessageBroker" as MessageBroker
+package "Главный сервис" as MainService {
+    [REST API] as API
+    [Аутентификация и регистрация] as Auth
+    [PostgreSQL Database] as AuthDB
+}
+
+package "Сервис статистики" as StatService  {
+    [Сбор статистики] as Statistics
+    [Clickhouse Database] as StatsDB
+}
+
+package "Сервис задач и комментариев" as TaskService {
+    [Управление задачами и комментариями] as Task
+    [PostgreSQL Database] as TaskDB
+}
+
+User --> API: HTTP
+Task --> TaskDB
+Auth --> AuthDB
+Statistics --> StatsDB
+MainService --> StatService: gRPC
+MainService --> TaskService: gRPC
+MainService --> MessageBroker: Events
+MessageBroker --> Statistics: Events
+API --> Auth
+
+skinparam package {
+    BackgroundColor<<Главный сервис>> LightBlue
+    BorderColor<<Главный сервис>> Black
+    BackgroundColor<<Сервис статистики>> LightGreen
+    BorderColor<<Сервис статистики>> Black
+    BackgroundColor<<Сервис задач и комментариев>> LightYellow
+    BorderColor<<Сервис задач и комментариев>> Black
+}
+@enduml

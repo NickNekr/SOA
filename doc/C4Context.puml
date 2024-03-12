@@ -1,0 +1,20 @@
+@startuml
+actor Пользователь as User
+
+rectangle "Web" as Front {
+    [Веб-интерфейс]
+}
+
+rectangle "Backend" as Back {
+    [Задачи и комментарии]
+    [Аутентификация и регистрация]
+    [Статистика]
+}
+
+database "DataBase" as db {
+}
+
+User <--> Front
+Front <--> Back
+Back <--> db
+@enduml

@@ -6,7 +6,7 @@ services:
     build: ./Auth
     restart: always
     ports:
-      - "8080:8080"
+      - "${AUTH_PORT:-8000}:${AUTH_PORT:-8000}"
     stop_signal: sigint
     command:
       - sh
@@ -15,6 +15,7 @@ services:
         poetry run python ./src/run.py
     networks:
       - mynetwork
+    
 
   db:
     image: postgres:latest

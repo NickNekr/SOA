@@ -19,6 +19,7 @@ bcrypt = "^3.2.0"
 pydantic = {extras = ["email"], version = "^2.6.3"}
 asyncpg = "^0.29.0"
 python-multipart = "^0.0.9"
+grpcio-tools = "^1.62.1"
 
 
 [build-system]

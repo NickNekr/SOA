@@ -1,4 +1,4 @@
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
@@ -10,8 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database.model import User
 from database.session import get_session
 from config import get_config
-from common.repository import get_user_repo
-from common.exception import UNAUTHORIZED
+from utils.exception import UNAUTHORIZED
+from utils.model_repository import get_user_repo
 from common.schema import TokenData
 
 
@@ -30,7 +30,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 async def authenticate_user(username: str, password: str, session: AsyncSession):
-    user: Optional[User]  = await user_repo.get_user(username, session)
+    user: Optional[User] = await user_repo.get_by_condition(User.username == username, session)
     if not user or not verify_password(password, user.hashed_password):
         return False
     return user
@@ -55,7 +55,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], sessio
     except JWTError:
         raise UNAUTHORIZED
 
-    user: User = await user_repo.get_user(token_data.username, session)
+    user: Optional[User] = await user_repo.get_by_condition(User.username == token_data.username, session)
 
     if user is None:
         raise UNAUTHORIZED

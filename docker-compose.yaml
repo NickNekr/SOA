@@ -3,7 +3,9 @@ services:
   auth:
     depends_on:
       - auth_service_db
-    build: ./Auth
+    build:
+      context: .
+      dockerfile: ./Auth/Dockerfile
     restart: always
     ports:
       - "${AUTH_PORT:-8000}:${AUTH_PORT:-8000}"
@@ -12,7 +14,7 @@ services:
       - sh
       - -c
       - |
-        poetry run python ./src/run.py
+        PYTHONPATH=/web:/web/common/proto poetry run python ./src/run.py
     networks:
       - mynetwork
     
@@ -20,7 +22,9 @@ services:
     depends_on:
       - auth
       - tasks_service_db
-    build: ./TasksService
+    build:
+      context: .
+      dockerfile: ./TasksService/Dockerfile
     restart: always
     ports:
       - "${TASKS_PORT:-8001}:${TASKS_PORT:-8001}"
@@ -29,7 +33,7 @@ services:
       - sh
       - -c
       - |
-        PYTHONPATH=./src/grpc_tasks poetry run python ./src/run.py
+        PYTHONPATH=/web:/web/common/proto poetry run python ./src/run.py
     networks:
       - mynetwork
     

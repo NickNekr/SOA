@@ -23,6 +23,13 @@ class FastApiConfig(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
+class GrpcConfig(BaseSettings):
+    model_config = SettingsConfigDict(extra='ignore')
+
+    PORT: int = 8001
+    HOST: str = "tasks"
+
+
 class Config(BaseSettings):
     env_file_: str = os.path.abspath(os.path.dirname(__file__)) + "/../" + os.environ.get("ENVIROMENT", ".env")
 
@@ -30,6 +37,7 @@ class Config(BaseSettings):
 
     FastApi: FastApiConfig = FastApiConfig(_env_file=env_file_)
     DataBase: DataBaseConfig = DataBaseConfig(_env_file=env_file_)
+    Grpc: GrpcConfig = GrpcConfig(_env_file=env_file_)
 
     ENV: str = "dev"
 

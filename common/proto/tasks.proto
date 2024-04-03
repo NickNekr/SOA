@@ -20,12 +20,12 @@ message UpdateTaskRequest {
     string task_id = 1;
     string title = 2;
     string text = 3;
-    string updater_id = 4;
+    string updater = 4;
 }
 
 message DeleteTaskRequest {
     string task_id = 1;
-    string user_id = 2;
+    string user = 2;
 }
 
 message DeleteTaskResponse {
@@ -34,10 +34,11 @@ message DeleteTaskResponse {
 
 message GetTaskByIdRequest {
     string task_id = 1;
+    string user = 2;
 }
 
 message GetTasksRequest {
-    string user_id = 1;
+    string user = 1;
     int32 page_number = 2;
     int32 page_size = 3;
 }

@@ -69,29 +69,3 @@ class BaseRepository:
             setattr(model_instance, field, value)
 
         await session.flush()
-
-
-# class UserRepository:
-#     async def create_user(self, user: UserSchema, session: AsyncSession):
-#         empty_user_data = UserData()
-#         session.add(empty_user_data)
-#         await session.flush()
-#         await session.refresh(empty_user_data)
-
-#         new_user = User(
-#             username=user.username,
-#             hashed_password=user.password,
-#             user_data_id=empty_user_data.id
-#         )
-
-#         session.add(new_user)
-#         await session.flush()
-#         await session.refresh(new_user)
-
-#         await session.commit()
-
-#         return new_user.id
-
-#     async def get_user(self, username: str, session: AsyncSession) -> User:
-#         user = await session.execute(select(User).where(User.username == username))
-#         return user.scalar()

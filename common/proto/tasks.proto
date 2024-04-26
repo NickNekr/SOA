@@ -34,11 +34,9 @@ message DeleteTaskResponse {
 
 message GetTaskByIdRequest {
     string task_id = 1;
-    string user = 2;
 }
 
 message GetTasksRequest {
-    string user = 1;
     int32 page_number = 2;
     int32 page_size = 3;
 }

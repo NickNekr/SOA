@@ -52,7 +52,7 @@ class TaskService(tasks_pb2_grpc.TaskServiceServicer):
 
     async def GetTaskById(self, request, context):
         async with get_session() as session:
-            task = await task_repo.get_by_condition((Task.id == request.task_id) & (Task.author == request.user), session)
+            task = await task_repo.get_by_condition((Task.id == request.task_id), session)
             if not task_exist(task, context):
                 return
             return tasks_pb2.Task(task_id=str(task.id), title=task.title, text=task.text)
@@ -60,7 +60,7 @@ class TaskService(tasks_pb2_grpc.TaskServiceServicer):
     async def GetTasks(self, request, context):
         async with get_session() as session:
             offset = (request.page_number - 1) * request.page_size
-            tasks = await session.execute(select(Task).where(Task.author == request.user).offset(offset).limit(request.page_size))
+            tasks = await session.execute(select(Task).offset(offset).limit(request.page_size))
             tasks = tasks.scalars()
             
             if tasks:
@@ -69,7 +69,7 @@ class TaskService(tasks_pb2_grpc.TaskServiceServicer):
                     yield tasks_pb2.Task(task_id=str(task.id), title=task.title, text=task.text)
             
 
-async def serve():
+async def server():
     config = get_config()
     server = grpc.aio.server()
     tasks_pb2_grpc.add_TaskServiceServicer_to_server(TaskService(), server)

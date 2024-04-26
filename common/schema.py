@@ -26,3 +26,17 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Union[str, None] = None
+
+class TaskIdSchema(BaseModel):
+    task_id: Optional[str]
+
+class TaskSchema(BaseModel):
+    title: str
+    text: str
+
+class FullTaskSchema(TaskIdSchema):
+    title: str
+    text: str
+
+class DeleteTaskResponse(BaseModel):
+    success: bool

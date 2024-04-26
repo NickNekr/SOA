@@ -2,7 +2,7 @@ FROM python:3.11
 
 WORKDIR /web
 
-COPY ./Auth/ /web/
+COPY ./TasksService/ /web/
 COPY ./common /web/common
 
 RUN pip install poetry

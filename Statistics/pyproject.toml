@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "statistics"
+version = "0.1.0"
+description = ""
+authors = ["Nikolay Nekrasov <nnnekrasov@edu.hse.ru>"]
+readme = "README.md"
+packages = [{include = "statistics", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.110.2"
+uvicorn = "^0.29.0"
+pydantic-settings = "^2.2.1"
+aiokafka = "^0.10.0"
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9"
+asyncpg = "^0.29.0"
+pydantic = {extras = ["email"], version = "^2.7.1"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

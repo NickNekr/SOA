@@ -9,6 +9,20 @@ class UserDataSchema(BaseModel):
     email: Optional[EmailStr]
     phone_number: Optional[str]
 
+class LikesStatsSchema(BaseModel):
+    task_id: int
+    count: int
+
+class ViewsStatsSchema(BaseModel):
+    task_id: int
+    count: int
+
+class LikesSchema(BaseModel):
+    task_id: int
+    username: str
+
+class ViewsSchema(LikesSchema):
+    pass
 
 class UserUpdateSchema(BaseModel):
     user_data: UserDataSchema

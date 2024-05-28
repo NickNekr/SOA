@@ -7,13 +7,14 @@ import grpc
 
 from common.proto import tasks_pb2
 from common.schema import TaskSchema, TaskIdSchema, DeleteTaskResponse, FullTaskSchema
-from database.model import User
 from utils.auth_utils import get_current_user
 from utils.grpc_client_stub import get_stub
+from message_broker.producer import get_producer, Producer
+from database.model import User
 from config import get_config
 
 
-tasks_router = APIRouter(prefix="/auth")
+tasks_router = APIRouter(prefix="/tasks")
 
 app_config = get_config()
 
@@ -29,7 +30,7 @@ async def make_grpc_request(
             raise HTTPException(status_code=404, detail="Task not found")
 
 
-@tasks_router.post("/create/", response_model=TaskIdSchema)
+@tasks_router.post("/", response_model=TaskIdSchema)
 async def create_task(task: TaskSchema, current_user: User = Depends(get_current_user), stub = Depends(get_stub)):
     create_task_request = tasks_pb2.CreateTaskRequest(
         title=task.title, 
@@ -38,7 +39,7 @@ async def create_task(task: TaskSchema, current_user: User = Depends(get_current
     )
     return await stub.CreateTask(create_task_request)
 
-@tasks_router.put("/update/{task_id}", response_model=FullTaskSchema)
+@tasks_router.put("/{task_id}", response_model=FullTaskSchema)
 async def update_task(
     task_id: UUID, 
     task: TaskSchema, 
@@ -53,7 +54,7 @@ async def update_task(
     )
     return await make_grpc_request(update_task_request, stub.UpdateTask)
 
-@tasks_router.delete("/delete/{task_id}", response_model=DeleteTaskResponse)
+@tasks_router.delete("/{task_id}", response_model=DeleteTaskResponse)
 async def delete_task(
     task_id: UUID, 
     current_user: User = Depends(get_current_user),
@@ -65,17 +66,16 @@ async def delete_task(
     )
     return await make_grpc_request(delete_task_request, stub.DeleteTask)
 
-@tasks_router.get("/get/{task_id}", response_model=FullTaskSchema)
+@tasks_router.get("/{task_id}", response_model=FullTaskSchema)
 async def get_task_by_id(
     task_id: UUID, 
+    stub = Depends(get_stub),
     current_user: User = Depends(get_current_user),
-    stub = Depends(get_stub)
 ):
-    get_task_request = tasks_pb2.GetTaskByIdRequest(task_id=str(task_id), user=current_user.username)
+    get_task_request = tasks_pb2.GetTaskByIdRequest(task_id=str(task_id))
     return await make_grpc_request(get_task_request, stub.GetTaskById)
 
-
-@tasks_router.get("/get_all/", response_model=List[FullTaskSchema])
+@tasks_router.get("/all/", response_model=List[FullTaskSchema])
 async def get_tasks(
     page_number: int = Query(gt=0),
     page_size: int = Query(gt=0),
@@ -83,7 +83,6 @@ async def get_tasks(
     stub = Depends(get_stub)
 ):
     get_tasks_request = tasks_pb2.GetTasksRequest(
-        user=current_user.username,
         page_number=page_number,
         page_size=page_size
     )

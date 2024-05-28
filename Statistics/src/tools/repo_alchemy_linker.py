@@ -1,10 +1,11 @@
 from functools import lru_cache
 import pickle
+from uuid import UUID
 
-from database.model import Views, Likes, LikesStats, ViewsStats
+from database.model import Views, Likes, LikesStats, ViewsStats, TaskToAuthor
 from database.session import get_session_outside_depends
 from common.repository import BaseRepository
-from common.schema import ViewsSchema, LikesSchema, LikesStatsSchema, ViewsStatsSchema
+from common.schema import ViewsSchema, LikesSchema, LikesStatsSchema, ViewsStatsSchema, TaskToAuthorSchema
 
 class MonoRepos:
     def __init__(self) -> None:
@@ -12,6 +13,7 @@ class MonoRepos:
         self.likes = BaseRepository(Likes, LikesSchema)
         self.likes_stats = BaseRepository(LikesStats, LikesStatsSchema)
         self.views_stats = BaseRepository(ViewsStats, ViewsStatsSchema)
+        self.task_to_repo = BaseRepository(TaskToAuthor, TaskToAuthorSchema)
     
     async def ProduceEntity(self, msg, entity):
         data = pickle.loads(msg.value)
@@ -19,6 +21,10 @@ class MonoRepos:
 
         async with get_session_outside_depends() as session:
             async with session.begin():
+                obj = await self.task_to_repo.get_by_condition(TaskToAuthor.task_id == data["task_id"], session)
+                if obj is None:
+                    await self.task_to_repo.add_model_instance(TaskToAuthor(task_id=UUID(data["task_id"]), author=data["author"]) ,session)
+
                 obj = await repo.get_by_condition((entity.task_id == data["task_id"]) & (entity.username == data["username"]), session)
                 if obj is not None:
                     return

@@ -28,6 +28,12 @@ class KafkaConfig(BaseSettings):
     CONSUMER_TOPIC_VIEWS: str = "views-post"
     CONSUMER_TOPIC_LIKES: str = "likes-post"
 
+class GrpcConfig(BaseSettings):
+    model_config = SettingsConfigDict(extra='ignore')
+
+    PORT: int = 8005
+    HOST: str = "0.0.0.0"
+
 class Config(BaseSettings):
     env_file_: str = os.path.abspath(os.path.dirname(__file__)) + "/../" + os.environ.get("ENVIROMENT", ".env")
 
@@ -36,6 +42,7 @@ class Config(BaseSettings):
     FastApi: FastApiConfig = FastApiConfig(_env_file=env_file_)
     DataBase: DataBaseConfig = DataBaseConfig(_env_file=env_file_)
     Kafka: KafkaConfig = KafkaConfig(_env_file=env_file_)
+    Grpc: GrpcConfig = GrpcConfig(_env_file=env_file_)
 
     ENV: str = "dev"
 

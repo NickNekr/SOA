@@ -13,9 +13,12 @@ class MonoRepos:
         self.likes_stats = BaseRepository(LikesStats, LikesStatsSchema)
         self.views_stats = BaseRepository(ViewsStats, ViewsStatsSchema)
     
+    def get_state(self, entity):
+        return (self.views, self.views_stats, ViewsStats) if entity == Views else (self.likes, self.likes_stats, LikesStats)
+    
     async def ProduceEntity(self, msg, entity):
         data = pickle.loads(msg.value)
-        repo, stats_repo, stats_entity = (self.views, self.views_stats, ViewsStats) if entity == Views else (self.likes, self.likes_stats, LikesStats)
+        repo, stats_repo, stats_entity = self.get_state(entity)
 
         async with get_session_outside_depends() as session:
             async with session.begin():

@@ -1,8 +1,4 @@
-from datetime import datetime
-import pickle
-
-from database.session import get_session_outside_depends
-from database.model import Views, Likes, LikesStats, ViewsStats
+from database.model import Views, Likes
 from tools.repo_alchemy_linker import get_mono_repos
 
 mono_repos = get_mono_repos()

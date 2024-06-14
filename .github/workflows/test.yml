@@ -1,0 +1,52 @@
+name: Test services
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      
+      - name: Get absolute path
+        run: |
+          echo "Absolute path: $GITHUB_WORKSPACE"
+
+      - name: Install Poetry
+        run: |
+          pip install poetry
+
+      - name: Install dependencies
+        run: |
+          cd $GITHUB_WORKSPACE/Auth
+          poetry install --no-root --verbose
+          cd $GITHUB_WORKSPACE/TasksService
+          poetry install --no-root --verbose
+          cd $GITHUB_WORKSPACE/Statistics
+          poetry install --no-root --verbose
+
+      - name: Run Auth test
+        run: |
+          cd $GITHUB_WORKSPACE/Auth/tests
+          make all_tests
+
+      - name: Run TasksService test
+        run: |
+          cd $GITHUB_WORKSPACE/TasksService/tests
+          make all_tests
+      
+      - name: Run Statistics test
+        run: |
+          cd $GITHUB_WORKSPACE/Statistics/tests
+          make all_tests

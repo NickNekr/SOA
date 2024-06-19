@@ -2,8 +2,8 @@ from functools import lru_cache
 import pickle
 from uuid import UUID
 
-from database.model import Views, Likes, LikesStats, ViewsStats, TaskToAuthor
-from database.session import get_session_outside_depends
+from Statistics.src.database.model import Views, Likes, LikesStats, ViewsStats, TaskToAuthor
+from Statistics.src.database.session import get_session_outside_depends
 from common.repository import BaseRepository
 from common.schema import ViewsSchema, LikesSchema, LikesStatsSchema, ViewsStatsSchema, TaskToAuthorSchema
 

@@ -1,15 +1,12 @@
 import grpc
 from sqlalchemy import select, func
 
-
 from common.statistics_proto import statistics_pb2_grpc
 from common.statistics_proto import statistics_pb2
-
-from database.session import get_session_outside_depends
-from database.model import ViewsStats, LikesStats, TaskToAuthor
-
-from config import get_config
-from utils.model_repository import get_likes_repo, get_views_repo, get_task_to_author_repo
+from Statistics.src.database.session import get_session_outside_depends
+from Statistics.src.database.model import ViewsStats, LikesStats, TaskToAuthor
+from Statistics.src.config import get_config
+from Statistics.src.utils.model_repository import get_likes_repo, get_views_repo, get_task_to_author_repo
 
 likes_repo = get_likes_repo()
 views_repo = get_views_repo()

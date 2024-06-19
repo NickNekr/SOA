@@ -1,16 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List
-from database.session import get_session
 from uuid import UUID
 from grpc import RpcError
 import grpc
 
 from common.tasks_proto import tasks_pb2
 from common.schema import TaskSchema, TaskIdSchema, DeleteTaskResponse, FullTaskSchema
-from utils.auth_utils import get_current_user
-from utils.grpc_client_stub import get_tasks_stub
-from database.model import User
-from config import get_config
+from Auth.src.utils.auth_utils import get_current_user
+from Auth.src.utils.grpc_client_stub import get_tasks_stub
+from Auth.src.database.model import User
+from Auth.src.config import get_config
 
 
 tasks_router = APIRouter(prefix="/tasks")
@@ -36,6 +35,7 @@ async def create_task(task: TaskSchema, current_user: User = Depends(get_current
         text=task.text, 
         author=current_user.username
     )
+    print("HELLO FROM CREATE TASK")
     return await stub.CreateTask(create_task_request)
 
 @tasks_router.put("/{task_id}", response_model=FullTaskSchema)

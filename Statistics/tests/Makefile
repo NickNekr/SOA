@@ -1,4 +1,4 @@
-PYTHONPATH := $(GITHUB_WORKSPACE)/Statistics/src:$(GITHUB_WORKSPACE):$(GITHUB_WORKSPACE)/common/statistics_proto
+PYTHONPATH := $(GITHUB_WORKSPACE):$(GITHUB_WORKSPACE)/common/statistics_proto
 
 e2e_tests:
 	PYTHONPATH=$(PYTHONPATH) poetry run pytest tests_e2e.py --asyncio-mode=auto -p no:warnings

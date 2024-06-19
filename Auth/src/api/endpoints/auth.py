@@ -7,15 +7,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from common.schema import Token, UserDataSchema, UserLoginSchema
 
-from utils.model_repository import get_user_repo, get_user_data_repo, BaseRepository
-from utils.exception import USERNAME_ALREADY_TAKEN, WRONG_USERNAME_OR_PASS
-from utils.auth_utils import authenticate_user, create_access_token, get_password_hash, get_current_user
+from Auth.src.utils.model_repository import get_user_repo, get_user_data_repo, BaseRepository
+from Auth.src.utils.exception import USERNAME_ALREADY_TAKEN, WRONG_USERNAME_OR_PASS
+from Auth.src.utils.auth_utils import authenticate_user, create_access_token, get_password_hash, get_current_user
 
-from database.session import get_session
-from database.model import User, UserData
-
-
-from config import get_config
+from Auth.src.database.session import get_session
+from Auth.src.database.model import User, UserData
+from Auth.src.config import get_config
 
 app_config = get_config()
 

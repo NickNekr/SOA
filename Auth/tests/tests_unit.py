@@ -1,13 +1,13 @@
 import pytest
 from unittest.mock import AsyncMock, patch
 
-from utils.auth_utils import (
+from Auth.src.utils.auth_utils import (
     verify_password,
     get_password_hash,
     authenticate_user,
 )
-from database.model import User
-from config import get_config
+from Auth.src.database.model import User
+from Auth.src.config import get_config
 
 @pytest.mark.asyncio
 async def test_verify_password():
@@ -23,7 +23,7 @@ async def test_authenticate_user():
     mock_user_repo.get_by_condition.return_value = mock_user
     session = AsyncMock()
 
-    with patch('utils.auth_utils.user_repo', mock_user_repo):
+    with patch('Auth.src.utils.auth_utils.user_repo', mock_user_repo):
         user = await authenticate_user("testuser", "testpassword", session)
         assert user == mock_user
 

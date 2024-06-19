@@ -4,21 +4,20 @@ from unittest.mock import patch
 from testcontainers.postgres import PostgresContainer
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from tasks_service.routers import TaskService
 from common.tasks_proto import tasks_pb2, tasks_pb2_grpc
-from database.session import init_models
-from utils.model_repository import get_task_repo
+from TasksService.src.tasks_service.routers import TaskService
+from TasksService.src.database.session import init_models
+from TasksService.src.utils.model_repository import get_task_repo
 
 @pytest.fixture(scope="module")
 def postgres_container():
-    container = PostgresContainer("postgres:latest")
-    container.start()
-    yield container
-    container.stop()
+    with PostgresContainer("postgres:latest") as container:
+        container.start()
+        yield container
 
 @pytest.fixture(scope="module")
 async def stub(postgres_container):
-    with patch("database.session.get_engine") as mock_get_engine:
+    with patch("TasksService.src.database.session.get_engine") as mock_get_engine:
         uri = postgres_container.get_connection_url().replace("postgresql+psycopg2://", "postgresql+asyncpg://")
         mock_get_engine.return_value = create_async_engine(uri, echo=True)
 

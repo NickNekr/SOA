@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Nikolay Nekrasov <nnnekrasov@edu.hse.ru>"]
 readme = "README.md"
-packages = [{include = "tasksservice", from = "src"}]
+packages = [{include = "tasks_service", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

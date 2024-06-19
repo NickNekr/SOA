@@ -1,4 +1,4 @@
-PYTHONPATH := $(GITHUB_WORKSPACE)/TasksService/src:$(GITHUB_WORKSPACE)/:$(GITHUB_WORKSPACE)/common/tasks_proto
+PYTHONPATH := $(GITHUB_WORKSPACE):$(GITHUB_WORKSPACE)/common/tasks_proto
 
 e2e_tests:
 	PYTHONPATH=$(PYTHONPATH) poetry run pytest tests_e2e.py -p no:warnings

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Nikolay Nekrasov <nnnekrasov@edu.hse.ru>"]
 readme = "README.md"
-packages = [{include = "statistics", from = "src"}]
+packages = [{include = "statistics_service", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

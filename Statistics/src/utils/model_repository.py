@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from common.repository import BaseRepository
 from common.schema import LikesStatsSchema, ViewsStatsSchema, TaskToAuthorSchema
-from database.model import ViewsStats, LikesStats, TaskToAuthor
+from Statistics.src.database.model import ViewsStats, LikesStats, TaskToAuthor
 
 @lru_cache
 def get_likes_repo():

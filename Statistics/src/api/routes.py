@@ -4,11 +4,11 @@ from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 import asyncio
 
-from api.endpoints.statistics import statistics_router
-from database.session import init_models
-from message_broker.consumer import consume
-from message_broker.callback_functions import views_callback, likes_callback
-from config import get_config
+from Statistics.src.api.endpoints.statistics import statistics_router
+from Statistics.src.database.session import init_models
+from Statistics.src.message_broker.consumer import consume
+from Statistics.src.message_broker.callback_functions import views_callback, likes_callback
+from Statistics.src.config import get_config
 
 app_config = get_config()
 

@@ -18,6 +18,7 @@ services:
       - sh
       - -c
       - |
+        cd /web/Auth
         PYTHONPATH=/web:/web/common/tasks_proto:/web/common/statistics_proto poetry run python ./src/run.py
     networks:
       - mynetwork
@@ -36,6 +37,7 @@ services:
       - sh
       - -c
       - |
+        cd /web/Statistics
         PYTHONPATH=/web:/web/common/statistics_proto poetry run python ./src/run.py
     networks:
       - mynetwork
@@ -55,6 +57,7 @@ services:
       - sh
       - -c
       - |
+        cd /web/TasksService
         PYTHONPATH=/web:/web/common/tasks_proto poetry run python ./src/run.py
     networks:
       - mynetwork

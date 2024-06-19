@@ -3,21 +3,15 @@ import asyncio
 import grpc
 import pickle
 from unittest.mock import patch
-from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
+from aiokafka import AIOKafkaProducer
 from testcontainers.postgres import PostgresContainer
 from testcontainers.kafka import KafkaContainer
-from fastapi.testclient import TestClient
 
-from api.routes import app
-from config import get_config
-from database.session import init_models
-from statistics_service.statistics import StatisticsService
 from common.statistics_proto import statistics_pb2_grpc
 from common.statistics_proto import statistics_pb2
-from database.session import init_models, get_session_outside_depends
-from database.model import Likes, Views
-from tools.repo_alchemy_linker import MonoRepos, get_mono_repos
-from run import lifespan
+from Statistics.src.config import get_config
+from Statistics.src.statistics_service.statistics import StatisticsService
+from Statistics.src.run import lifespan
 
 @pytest.fixture
 def task_id():
@@ -48,7 +42,7 @@ def config_patch(kafka_container, postgres_container):
     app_config.DataBase.SQLALCHEMY_DATABASE_URI = uri
 
 
-    with patch("config.get_config", return_value=app_config):
+    with patch("Statistics.src.config.get_config", return_value=app_config):
         yield app_config
 
 @pytest.fixture

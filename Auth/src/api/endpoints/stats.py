@@ -5,11 +5,11 @@ from grpc import RpcError, StatusCode
 from common.tasks_proto import tasks_pb2
 from common.statistics_proto import statistics_pb2
 from common.schema import TaskStatsResponse, TopTasksResponse, TopUsersResponse
-from utils.auth_utils import get_current_user
-from utils.grpc_client_stub import get_tasks_stub, get_stat_stub
-from message_broker.producer import get_producer, Producer
-from database.model import User
-from config import get_config
+from Auth.src.utils.auth_utils import get_current_user
+from Auth.src.utils.grpc_client_stub import get_tasks_stub, get_stat_stub
+from Auth.src.message_broker.producer import get_producer, Producer
+from Auth.src.database.model import User
+from Auth.src.config import get_config
 
 
 stats_router = APIRouter(prefix="/stats")
@@ -77,12 +77,13 @@ async def send_view(
     return {"Message": "View was send!"}
 
 @stats_router.post("/like/{task_id}")
-async def send_view(
+async def send_like(
     task_id: UUID, 
     current_user: User = Depends(get_current_user),
     producer: Producer = Depends(get_producer),
     stub = Depends(get_tasks_stub),
 ):
+    print("HELLO FROM LIKES")
     task_id = str(task_id)
     author = await get_author(task_id, stub)
     await producer.send_message({"task_id": task_id, "username": current_user.username, "author": author}, app_config.Kafka.PRODUCER_TOPIC_LIKES)

@@ -1,4 +1,4 @@
-PYTHONPATH := $(GITHUB_WORKSPACE)/Auth/src:$(GITHUB_WORKSPACE):$(GITHUB_WORKSPACE)/Auth
+PYTHONPATH := $(GITHUB_WORKSPACE)
 
 unit_tests:
 	PYTHONPATH=$(PYTHONPATH) poetry run pytest tests_unit.py --asyncio-mode=auto -p no:warnings

@@ -5,12 +5,10 @@ from sqlalchemy import select
 from common.tasks_proto import tasks_pb2_grpc
 from common.tasks_proto import tasks_pb2
 
-from database.session import get_session
-from database.model import Task
-
-from config import get_config
-
-from utils.model_repository import get_task_repo
+from TasksService.src.database.session import get_session
+from TasksService.src.database.model import Task
+from TasksService.src.config import get_config
+from TasksService.src.utils.model_repository import get_task_repo
 
 task_repo = get_task_repo()
 

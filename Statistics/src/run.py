@@ -2,15 +2,11 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 
-from config import get_config
-
-from database.session import init_models
-from message_broker.consumer import consume
-from message_broker.callback_functions import views_callback, likes_callback
-from config import get_config
-
-from statistics_service.statistics import server
-from database.session import init_models
+from Statistics.src.message_broker.consumer import consume
+from Statistics.src.message_broker.callback_functions import views_callback, likes_callback
+from Statistics.src.statistics_service.statistics import server
+from Statistics.src.database.session import init_models
+from Statistics.src.config import get_config
 
 
 @asynccontextmanager

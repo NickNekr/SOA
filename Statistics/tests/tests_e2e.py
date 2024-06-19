@@ -5,12 +5,12 @@ from unittest.mock import patch
 from testcontainers.postgres import PostgresContainer
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from statistics_service.statistics import StatisticsService
 from common.statistics_proto import statistics_pb2_grpc
 from common.statistics_proto import statistics_pb2
-from database.session import init_models, get_session_outside_depends
-from database.model import Likes, Views
-from tools.repo_alchemy_linker import MonoRepos, get_mono_repos
+from Statistics.src.statistics_service.statistics import StatisticsService
+from Statistics.src.database.session import init_models
+from Statistics.src.database.model import Likes, Views
+from Statistics.src.tools.repo_alchemy_linker import MonoRepos, get_mono_repos
 
 @pytest.fixture
 def task_id():
@@ -33,7 +33,7 @@ async def engine_patch(postgres_container):
     engine = create_async_engine(uri, echo=True)
     print(f"Created async engine with URI: {uri}")
 
-    with patch("database.session.get_engine", return_value=engine):
+    with patch("Statistics.src.database.session.get_engine", return_value=engine):
         await init_models()
         yield
 

@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from common.repository import BaseRepository
 from common.schema import UserSchema, UserDataSchema
-from database.model import User, UserData
+from Auth.src.database.model import User, UserData
 
 @lru_cache
 def get_user_repo():

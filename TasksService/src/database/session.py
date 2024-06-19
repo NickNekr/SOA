@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from contextlib import asynccontextmanager
 from functools import lru_cache
 
-from config import get_config
-from database.model import Base  
+from TasksService.src.config import get_config
+from TasksService.src.database.model import Base  
 
 
 @lru_cache

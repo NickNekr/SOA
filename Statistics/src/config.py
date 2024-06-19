@@ -50,4 +50,5 @@ class Config(BaseSettings):
 
 @lru_cache
 def get_config():
+    print("STAT GET_CONFIG")
     return Config()

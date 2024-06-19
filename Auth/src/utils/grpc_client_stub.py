@@ -1,6 +1,6 @@
 import grpc
 
-from config import get_config
+from Auth.src.config import get_config
 from common.tasks_proto import tasks_pb2_grpc
 from common.statistics_proto import statistics_pb2_grpc
 

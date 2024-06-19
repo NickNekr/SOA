@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from api.routes import app 
-from src.tools.repo_alchemy_linker import get_mono_repos, MonoRepos
-from database.model import Views, Likes, LikesStats, ViewsStats
+from Statistics.src.api.routes import app 
+from Statistics.src.tools.repo_alchemy_linker import get_mono_repos, MonoRepos
+from Statistics.src.database.model import Views, Likes, LikesStats, ViewsStats
 
 @pytest.fixture
 def client():

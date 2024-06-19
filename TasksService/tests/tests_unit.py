@@ -2,8 +2,8 @@ import pytest
 import grpc
 from unittest.mock import Mock, patch
 
-from src.tasks_service.routers import task_exist
-from src.config import Config, get_config
+from TasksService.src.tasks_service.routers import task_exist
+from TasksService.src.config import Config, get_config
 
 @pytest.mark.asyncio
 async def test_task_exist():
@@ -20,7 +20,7 @@ async def test_task_exist():
 
 
 
-@patch('src.config.Config', autospec=True)
+@patch('TasksService.src.config.Config', autospec=True)
 def test_get_config_cache(mock_config):
     config1 = get_config()
     config2 = get_config()

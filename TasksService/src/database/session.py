@@ -2,25 +2,32 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngin
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from contextlib import asynccontextmanager
+from functools import lru_cache
 
-from config import get_config
-from database.model import Base  
+from TasksService.src.config import get_config
+from TasksService.src.database.model import Base  
 
 
-app_config = get_config()
+@lru_cache
+def get_engine() -> AsyncEngine:
+    app_config = get_config()
+    return create_async_engine(app_config.DataBase.SQLALCHEMY_DATABASE_URI, echo=True)
 
-engine: AsyncEngine = create_async_engine(app_config.DataBase.SQLALCHEMY_DATABASE_URI, echo=True)
-async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+@lru_cache
+def get_async_session():
+    print("MYSESSION", get_engine().url)
+    return sessionmaker(get_engine(), class_=AsyncSession, expire_on_commit=False)
 
 @asynccontextmanager
 async def get_session() -> AsyncSession: # type: ignore
-    async with async_session() as session:
+    async with get_async_session()() as session:
         yield session
         await session.commit()
 
 
 
 async def init_models():
-    async with engine.begin() as conn:
+    print("MYSESSION", get_engine().url)
+    async with get_engine().begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)

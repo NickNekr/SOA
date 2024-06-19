@@ -7,11 +7,11 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated, Union, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database.model import User
-from database.session import get_session
-from config import get_config
-from utils.exception import UNAUTHORIZED
-from utils.model_repository import get_user_repo
+from Auth.src.database.model import User
+from Auth.src.database.session import get_session
+from Auth.src.config import get_config
+from Auth.src.utils.exception import UNAUTHORIZED
+from Auth.src.utils.model_repository import get_user_repo
 from common.schema import TokenData
 
 

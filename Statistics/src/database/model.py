@@ -30,7 +30,7 @@ class Likes(Base):
 
     id = Column(Integer, primary_key=True)
     task_id = Column(UUID(as_uuid=True))
-    username = Column(String(50), unique=True, nullable=False)
+    username = Column(String(50), nullable=False)
 
 class Views(Base):
     __tablename__ = "View"
@@ -38,4 +38,12 @@ class Views(Base):
 
     id = Column(Integer, primary_key=True)
     task_id = Column(UUID(as_uuid=True))
-    username = Column(String(50), unique=True, nullable=False)
+    username = Column(String(50), nullable=False)
+
+class TaskToAuthor(Base):
+    __tablename__ = "TaskToAuthor"
+    __table_args__ = {"comment": "Таблица, хранящая соотнесение задачи к автору"}
+
+    id = Column(Integer, primary_key=True)
+    task_id = Column(UUID(as_uuid=True))
+    author = Column(String(50), nullable=False)

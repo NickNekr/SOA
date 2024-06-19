@@ -2,8 +2,8 @@ FROM python:3.11
 
 WORKDIR /web
 
-COPY ./Auth/ /web/
+COPY ./Auth/ /web/Auth
 COPY ./common /web/common
 
 RUN pip install poetry
-RUN poetry install --no-root --verbose
+RUN cd /web/Auth && poetry install --no-root --verbose

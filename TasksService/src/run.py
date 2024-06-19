@@ -1,8 +1,8 @@
 import logging
 import asyncio
 
-from tasks_service.routers import server
-from database.session import init_models
+from TasksService.src.tasks_service.routers import server
+from TasksService.src.database.session import init_models
 
 async def run():
     await init_models()

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from config import get_config
+from Statistics.src.config import get_config
 
 app_config = get_config()
 

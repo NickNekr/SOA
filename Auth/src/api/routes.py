@@ -3,11 +3,11 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 
-from api.endpoints.auth import auth_router
-from api.endpoints.tasks import tasks_router
-from api.endpoints.stats import stats_router
-from database.session import init_models
-from message_broker.producer import get_producer
+from Auth.src.api.endpoints.auth import auth_router
+from Auth.src.api.endpoints.tasks import tasks_router
+from Auth.src.api.endpoints.stats import stats_router
+from Auth.src.database.session import init_models
+from Auth.src.message_broker.producer import get_producer
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

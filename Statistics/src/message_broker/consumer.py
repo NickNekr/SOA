@@ -1,7 +1,7 @@
 from aiokafka import AIOKafkaConsumer
 import pickle
 
-from config import get_config
+from Statistics.src.config import get_config
 
 app_config = get_config()
 

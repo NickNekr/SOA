@@ -1,17 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List
-from database.session import get_session
 from uuid import UUID
 from grpc import RpcError
 import grpc
 
-from common.proto import tasks_pb2
+from common.tasks_proto import tasks_pb2
 from common.schema import TaskSchema, TaskIdSchema, DeleteTaskResponse, FullTaskSchema
-from utils.auth_utils import get_current_user
-from utils.grpc_client_stub import get_stub
-from message_broker.producer import get_producer, Producer
-from database.model import User
-from config import get_config
+from Auth.src.utils.auth_utils import get_current_user
+from Auth.src.utils.grpc_client_stub import get_tasks_stub
+from Auth.src.database.model import User
+from Auth.src.config import get_config
 
 
 tasks_router = APIRouter(prefix="/tasks")
@@ -31,12 +29,13 @@ async def make_grpc_request(
 
 
 @tasks_router.post("/", response_model=TaskIdSchema)
-async def create_task(task: TaskSchema, current_user: User = Depends(get_current_user), stub = Depends(get_stub)):
+async def create_task(task: TaskSchema, current_user: User = Depends(get_current_user), stub = Depends(get_tasks_stub)):
     create_task_request = tasks_pb2.CreateTaskRequest(
         title=task.title, 
         text=task.text, 
         author=current_user.username
     )
+    print("HELLO FROM CREATE TASK")
     return await stub.CreateTask(create_task_request)
 
 @tasks_router.put("/{task_id}", response_model=FullTaskSchema)
@@ -44,7 +43,7 @@ async def update_task(
     task_id: UUID, 
     task: TaskSchema, 
     current_user: User = Depends(get_current_user),
-    stub = Depends(get_stub)
+    stub = Depends(get_tasks_stub)
 ):
     update_task_request = tasks_pb2.UpdateTaskRequest(
         task_id=str(task_id),
@@ -58,7 +57,7 @@ async def update_task(
 async def delete_task(
     task_id: UUID, 
     current_user: User = Depends(get_current_user),
-    stub = Depends(get_stub)
+    stub = Depends(get_tasks_stub)
 ):
     delete_task_request = tasks_pb2.DeleteTaskRequest(
         task_id=str(task_id),
@@ -69,7 +68,7 @@ async def delete_task(
 @tasks_router.get("/{task_id}", response_model=FullTaskSchema)
 async def get_task_by_id(
     task_id: UUID, 
-    stub = Depends(get_stub),
+    stub = Depends(get_tasks_stub),
     current_user: User = Depends(get_current_user),
 ):
     get_task_request = tasks_pb2.GetTaskByIdRequest(task_id=str(task_id))
@@ -80,7 +79,7 @@ async def get_tasks(
     page_number: int = Query(gt=0),
     page_size: int = Query(gt=0),
     current_user: User = Depends(get_current_user),
-    stub = Depends(get_stub)
+    stub = Depends(get_tasks_stub)
 ):
     get_tasks_request = tasks_pb2.GetTasksRequest(
         page_number=page_number,

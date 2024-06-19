@@ -2,7 +2,7 @@ from aiokafka import AIOKafkaProducer
 from functools import lru_cache
 import pickle
 
-from config import get_config
+from Auth.src.config import get_config
 
 app_config = get_config()
 

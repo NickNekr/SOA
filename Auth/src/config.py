@@ -26,8 +26,11 @@ class FastApiConfig(BaseSettings):
 class GrpcConfig(BaseSettings):
     model_config = SettingsConfigDict(extra='ignore')
 
-    PORT: int = 8001
-    HOST: str = "tasks"
+    TASKS_PORT: int = 8001
+    TASKS_HOST: str = "tasks"
+
+    STAT_PORT: int = 8005
+    STAT_HOST: str = "statistics"
 
 class KafkaConfig(BaseSettings):
     model_config = SettingsConfigDict(extra='ignore')
@@ -54,4 +57,5 @@ class Config(BaseSettings):
 
 @lru_cache
 def get_config():
+    print("AUTH GET_CONFIG")
     return Config()

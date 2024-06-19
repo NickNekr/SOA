@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "SOA"
+version = "0.1.0"
+description = ""
+authors = ["Nikolay Nekrasov <nnnekrasov@edu.hse.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+statistics = { path = "./Statistics" }
+mainservice = { path = "./Auth" }
+tasksservice = { path = "./TasksService" }
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

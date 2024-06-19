@@ -1,8 +1,7 @@
 import uvicorn
-import asyncio
 
-from api.routes import app
-from config import get_config
+from Auth.src.api.routes import app
+from Auth.src.config import get_config
 
 
 if __name__ == "__main__":
